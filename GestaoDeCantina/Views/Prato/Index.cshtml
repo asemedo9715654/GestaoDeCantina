@@ -1,0 +1,23 @@
+﻿@model IEnumerable<Prato>
+
+<h2 class="text-2xl font-bold mb-4">Lista de Pratos</h2>
+
+<a href="@Url.Action("Criar")" class="mb-4 inline-block bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">+ Novo Prato</a>
+
+<table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+    <thead class="bg-gray-100">
+        <tr>
+            <th class="text-left px-6 py-3">Nome</th>
+            <th class="text-left px-6 py-3">Data</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var prato in Model)
+        {
+            <tr class="border-b hover:bg-gray-50">
+                <td class="px-6 py-4">@prato.Nome</td>
+                <td class="px-6 py-4">@prato.Dia.ToShortDateString()</td>
+            </tr>
+        }
+    </tbody>
+</table>

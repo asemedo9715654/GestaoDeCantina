@@ -1,0 +1,17 @@
+﻿<!-- Views/Senha/Escolher.cshtml -->
+@model List<Prato>
+
+<h2 class="text-xl font-bold mb-4">Escolha o seu prato de hoje</h2>
+
+<form asp-action="Escolher" method="post" class="space-y-4">
+    @foreach (var prato in Model)
+    {
+        <div class="p-4 border rounded shadow bg-white">
+            <h3 class="text-lg font-semibold">@prato.Nome</h3>
+            <p class="text-gray-500">Dia: @prato.Dia.ToShortDateString()</p>
+            <button type="submit" name="pratoId" value="@prato.Id" class="mt-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                Escolher este
+            </button>
+        </div>
+    }
+</form>

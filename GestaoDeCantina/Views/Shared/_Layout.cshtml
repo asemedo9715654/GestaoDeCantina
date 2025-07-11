@@ -1,0 +1,78 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using GestaoDeCantina.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] - Gestão de Cantina</title>
+
+    <!-- Tailwind via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body class="bg-gray-100 text-gray-900 min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <header class="bg-blue-700 text-white shadow">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold">🍽 Gestão de Cantina</div>
+            <nav class="space-x-4">
+                <a href="/" class="hover:underline">Início</a>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <a href="/Senha/Escolher" class="hover:underline">Escolher Senha</a>
+                    <a href="/Senha/MinhaSenha" class="hover:underline">Minhas Senhas</a>
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a href="/Prato" class="hover:underline">Admin: Pratos</a>
+                        <a href="/Exportacao/Excel" class="hover:underline">Exportar Excel</a>
+                        <a href="/Exportacao/Pdf" class="hover:underline">Exportar PDF</a>
+                    }
+
+                    <span class="ml-4">Olá, @User.Identity.Name!</span>
+                    <form class="inline" method="post" asp-area="Identity" asp-page="/Account/Logout">
+                        <button type="submit" class="hover:underline">Sair</button>
+                    </form>
+                }
+                else
+                {
+                    <a href="/Identity/Account/Login" class="hover:underline">Entrar</a>
+                    <a href="/Identity/Account/Register" class="hover:underline">Registrar</a>
+                }
+            </nav>
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="flex-1 max-w-5xl mx-auto px-4 py-6">
+        <!-- Notificações com TempData -->
+        @if (TempData["Success"] != null)
+        {
+            <div class="bg-green-100 text-green-800 px-4 py-3 rounded mb-4">
+                @TempData["Success"]
+            </div>
+        }
+        @if (TempData["Error"] != null)
+        {
+            <div class="bg-red-100 text-red-800 px-4 py-3 rounded mb-4">
+                @TempData["Error"]
+            </div>
+        }
+
+        @RenderBody()
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="bg-gray-800 text-white text-center py-4 mt-4">
+        &copy; @DateTime.Now.Year - Gestão de Cantina BCV
+    </footer>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

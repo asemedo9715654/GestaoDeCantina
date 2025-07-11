@@ -1,0 +1,17 @@
+﻿@model Prato
+
+<h2 class="text-2xl font-bold mb-4">Novo Prato</h2>
+
+<form asp-action="Criar" method="post" class="space-y-4 max-w-md bg-white p-6 rounded shadow">
+    <div>
+        <label asp-for="Nome" class="block text-sm font-medium">Nome do Prato</label>
+        <input asp-for="Nome" class="w-full border px-4 py-2 rounded" />
+        <span asp-validation-for="Nome" class="text-red-500 text-sm"></span>
+    </div>
+    <div>
+        <label asp-for="Dia" class="block text-sm font-medium">Dia</label>
+        <input asp-for="Dia" type="date" class="w-full border px-4 py-2 rounded" />
+        <span asp-validation-for="Dia" class="text-red-500 text-sm"></span>
+    </div>
+    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Salvar</button>
+</form>
