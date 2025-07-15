@@ -1,42 +1,46 @@
 ﻿@using GestaoDeCantina.ViewModel
 @model IEnumerable<PratoViewModel>
 
+@{
+    ViewData["Title"] = "Gestão de Pratos";
+}
+
 <div class="container-fluid">
-    <h2 class="h4 fw-bold mb-4">Lista de Pratos</h2>
-
-    <a href="@Url.Action("Criar")" class="btn btn-success mb-3">
-        + Novo Prato
-    </a>
-
-    <div class="table-responsive">
-        <table id="tabelaPratos" class="table table-bordered table-hover bg-white shadow-sm">
-            <thead class="table-light">
-                <tr>
-                    <th>Nome</th>
-                    <th>Preço</th>
-                    <th>Total de Escolhas</th>
-                    <th>Data</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var prato in Model)
-                {
-                    <tr>
-                        <td>@prato.Nome</td>
-                        <td>@prato.Preco $$ </td>
-                        <td>@prato.TotalEscolhas</td>
-                        <td>@prato.Dia.ToShortDateString()</td>
-                        <td>
-                            <a href="@Url.Action("Editar", new { id = prato.Id })" class="btn btn-sm btn-warning">Editar</a>
-                            <a href="@Url.Action("Eliminar", new { id = prato.Id })" class="btn btn-sm btn-danger">Eliminar</a>
-
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="fw-bold">@ViewData["Title"]</h2>
+        <a class="btn btn-primary" asp-action="Criar">
+            <i class="bi bi-plus-lg"></i> Novo Prato
+        </a>
     </div>
+
+    <table id="tabelaPratos" class="table table-bordered table-hover bg-white shadow-sm">
+        <thead class="table-light">
+            <tr>
+                <th>Nome</th>
+                <th>Preço</th>
+                <th>Total de Escolhas</th>
+                <th>Data</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var prato in Model)
+            {
+                <tr>
+                    <td>@prato.Nome</td>
+                    <td>@prato.Preco $$ </td>
+                    <td>@prato.TotalEscolhas</td>
+                    <td>@prato.Dia.ToShortDateString()</td>
+                    <td>
+                        <a href="@Url.Action("Editar", new { id = prato.Id })" class="btn btn-sm btn-warning">Editar</a>
+                        <a href="@Url.Action("Eliminar", new { id = prato.Id })" class="btn btn-sm btn-danger">Eliminar</a>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
 </div>
 
 @section Scripts {

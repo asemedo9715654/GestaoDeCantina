@@ -1,30 +1,45 @@
 ﻿@model IEnumerable<Senha>
-
-<h2 class="h4 fw-bold mb-4">Minhas Senhas</h2>
-
-<!-- ✅ Botões de Exportação -->
-<div class="d-flex gap-3 mb-4">
-    <a href="/Exportacao/Excel" class="btn btn-success">Exportar Excel</a>
-    <a href="/Exportacao/Pdf" class="btn btn-danger">Exportar PDF</a>
-</div>
-
-
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success">@TempData["Success"]</div>
-}
-@if (TempData["Error"] != null)
-{
-    <div class="alert alert-danger">@TempData["Error"]</div>
+@{
+    ViewData["Title"] = "Minhas Senhas";
 }
 
-@if (!Model.Any())
-{
-    <p class="text-muted">Você ainda não escolheu nenhuma senha.</p>
-}
-else
-{
-    <div class="table-responsive">
+
+
+
+
+
+
+
+
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="fw-bold">@ViewData["Title"]</h2>
+        @*  <a class="btn btn-primary" asp-action="Criar">
+            <i class="bi bi-plus-lg"></i> Novo Prato
+        </a> *@
+        <div class="btn-group" role="group">
+            <a href="/Exportacao/Excel" class="btn btn-success">Exportar Excel</a>
+            <a href="/Exportacao/Pdf" class="btn btn-danger">Exportar PDF</a>
+        </div>
+    </div>
+
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
+    @if (!Model.Any())
+    {
+        <p class="text-muted">Você ainda não escolheu nenhuma senha.</p>
+    }
+    else
+    {
+
         <table id="tabelaSenhas" class="table table-bordered table-hover bg-white shadow-sm">
 
             <thead class="table-light">
@@ -48,13 +63,14 @@ else
                                 <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
                             </form>
                         </td>
-                       
+
                     </tr>
                 }
             </tbody>
         </table>
-    </div>
-}
+
+    }
+</div>
 
 
 @section Scripts {
