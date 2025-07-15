@@ -1,34 +1,73 @@
 ﻿@model IEnumerable<Senha>
 
-<h2 class="text-2xl font-bold mb-4">Minhas Senhas</h2>
+<h2 class="h4 fw-bold mb-4">Minhas Senhas</h2>
 
 <!-- ✅ Botões de Exportação -->
-<div class="flex space-x-4 mb-4">
-    <a href="/Exportacao/Excel" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Exportar Excel</a>
-    <a href="/Exportacao/Pdf" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Exportar PDF</a>
+<div class="d-flex gap-3 mb-4">
+    <a href="/Exportacao/Excel" class="btn btn-success">Exportar Excel</a>
+    <a href="/Exportacao/Pdf" class="btn btn-danger">Exportar PDF</a>
 </div>
+
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
 
 @if (!Model.Any())
 {
-    <p class="text-gray-600">Você ainda não escolheu nenhuma senha.</p>
+    <p class="text-muted">Você ainda não escolheu nenhuma senha.</p>
 }
 else
 {
-    <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
-        <thead class="bg-gray-100">
-            <tr>
-                <th class="text-left px-6 py-3">Prato</th>
-                <th class="text-left px-6 py-3">Data Escolha</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var senha in Model)
-            {
-                <tr class="border-b hover:bg-gray-50">
-                    <td class="px-6 py-4">@senha.Prato?.Nome</td>
-                    <td class="px-6 py-4">@senha.DataEscolha.ToString("dd/MM/yyyy HH:mm")</td>
+    <div class="table-responsive">
+        <table id="tabelaSenhas" class="table table-bordered table-hover bg-white shadow-sm">
+
+            <thead class="table-light">
+                <tr>
+                    <th>Prato</th>
+                    <th>Preço</th>
+                    <th>Data Escolha</th>
+                    <th>Ações</th>
+
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var senha in Model)
+                {
+                    <tr>
+                        <td>@senha.Prato?.Nome</td>
+                        <td>@senha.Prato.Preco $ 00</td>
+                        <td>@senha.DataEscolha.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>
+                            <form asp-action="Eliminar" asp-route-id="@senha.Id" method="post" onsubmit="return confirm('Tem certeza que deseja eliminar esta senha?');">
+                                <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                            </form>
+                        </td>
+                       
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 }
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#tabelaSenhas').DataTable({
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-PT.json'
+                },
+                responsive: true
+            });
+        });
+    </script>
+}
+
+

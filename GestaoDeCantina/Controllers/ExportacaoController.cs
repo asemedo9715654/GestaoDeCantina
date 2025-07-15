@@ -34,7 +34,7 @@ namespace GestaoDeCantina.Controllers
             int linha = 2;
             foreach (var senha in senhas)
             {
-                worksheet.Cell(linha, 1).Value = senha.Usuario?.UserName ?? "N/A";
+                worksheet.Cell(linha, 1).Value = senha.Usuario?.Nome ?? "N/A";
                 worksheet.Cell(linha, 2).Value = senha.Prato?.Nome ?? "N/A";
                 worksheet.Cell(linha, 3).Value = senha.DataEscolha.ToString("dd/MM/yyyy HH:mm");
                 linha++;
@@ -71,7 +71,7 @@ namespace GestaoDeCantina.Controllers
                             foreach (var senha in senhas)
                             {
                                 col.Item().PaddingVertical(5).Text(
-                                    $"{senha.Usuario?.UserName} escolheu '{senha.Prato?.Nome}' em {senha.DataEscolha:dd/MM/yyyy HH:mm}");
+                                    $"{senha.Usuario?.Nome} escolheu '{senha.Prato?.Nome}' em {senha.DataEscolha:dd/MM/yyyy HH:mm}");
                             }
                         });
                 });

@@ -1,8 +1,10 @@
 ﻿@model Prato
 
-<h2 class="h4 fw-bold mb-4">Novo Prato</h2>
+<h2 class="h4 fw-bold mb-4">Editar Prato</h2>
 
-<form asp-action="Criar" method="post" class="bg-white p-4 rounded shadow-sm border" style="max-width: 500px;">
+<form asp-action="Editar" method="post" class="bg-white p-4 rounded shadow-sm border" style="max-width: 500px;">
+    <input type="hidden" asp-for="Id" />
+
     <div class="mb-3">
         <label asp-for="Nome" class="form-label">Nome do Prato</label>
         <input asp-for="Nome" class="form-control" />
@@ -21,5 +23,5 @@
         <span asp-validation-for="Dia" class="text-danger small"></span>
     </div>
 
-    <button type="submit" class="btn btn-primary">Salvar</button>
+    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
 </form>

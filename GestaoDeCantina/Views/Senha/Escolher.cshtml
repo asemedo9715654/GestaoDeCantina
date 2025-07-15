@@ -1,17 +1,42 @@
-﻿<!-- Views/Senha/Escolher.cshtml -->
-@model List<Prato>
+﻿@model List<Prato>
+@{
+    ViewData["Title"] = "Escolha o seu prato";
+    var dataEscolhida = ViewBag.DataEscolhida as DateTime? ?? DateTime.Today;
+}
 
-<h2 class="text-xl font-bold mb-4">Escolha o seu prato de hoje</h2>
+<h2 class="h4 fw-bold mb-4">Escolha seu prato - @dataEscolhida.ToString("dd/MM/yyyy")</h2>
 
-<form asp-action="Escolher" method="post" class="space-y-4">
-    @foreach (var prato in Model)
-    {
-        <div class="p-4 border rounded shadow bg-white">
-            <h3 class="text-lg font-semibold">@prato.Nome</h3>
-            <p class="text-gray-500">Dia: @prato.Dia.ToShortDateString()</p>
-            <button type="submit" name="pratoId" value="@prato.Id" class="mt-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
-                Escolher este
-            </button>
-        </div>
-    }
+<!-- Formulário no topo para selecionar a data -->
+<form asp-action="FiltrarPorData" method="post" class="mb-4">
+    <div class="d-flex align-items-center gap-3">
+        <label for="dataEscolhida" class="form-label m-0">Data:</label>
+        <input type="date" id="dataEscolhida" name="dataEscolhida"
+               value="@dataEscolhida.ToString("yyyy-MM-dd")"
+               min="@DateTime.Today.ToString("yyyy-MM-dd")"
+               class="form-control"
+               onchange="this.form.submit()" />
+    </div>
 </form>
+
+<!-- Lista de pratos para o dia escolhido -->
+@if (!Model.Any())
+{
+    <div class="alert alert-warning mt-3">Nenhum prato disponível para essa data.</div>
+}
+else
+{
+    <form asp-action="ConfirmarEscolha" method="post" class="d-grid gap-3">
+        <input type="hidden" name="dataEscolhida" value="@dataEscolhida.ToString("yyyy-MM-dd")" />
+
+        @foreach (var prato in Model)
+        {
+            <div class="p-4 border rounded shadow-sm bg-white">
+                <h3 class="h5 fw-semibold">@prato.Nome</h3>
+                <p class="text-muted mb-2">Preço: @prato.Preco $ 00</p>
+                <button type="submit" name="pratoId" value="@prato.Id" class="btn btn-primary">
+                    Escolher este
+                </button>
+            </div>
+        }
+    </form>
+}
