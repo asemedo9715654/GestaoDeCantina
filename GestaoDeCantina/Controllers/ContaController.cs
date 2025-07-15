@@ -110,5 +110,70 @@ namespace GestaoDeCantina.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login");
         }
+
+        public IActionResult Index()
+        {
+            var usuarios = _context.Usuarios.ToList();
+            return View(usuarios);
+        }
+
+        [HttpGet]
+        public IActionResult Criar()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Criar(Usuario model, string senha)
+        {
+            if (_context.Usuarios.Any(u => u.Email == model.Email))
+            {
+                ModelState.AddModelError("", "Email já cadastrado.");
+                return View(model);
+            }
+
+            model.SenhaHash = AuthService.HashSenha(senha);
+            //model.CriadoPeloAdmin = true;
+
+            _context.Usuarios.Add(model);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Editar(int id)
+        {
+            var usuario = _context.Usuarios.Find(id);
+            if (usuario == null) return NotFound();
+            return View(usuario);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Editar(Usuario model)
+        {
+            var usuario = _context.Usuarios.Find(model.Id);
+            if (usuario == null) return NotFound();
+
+            usuario.Nome = model.Nome;
+            usuario.Email = model.Email;
+            usuario.Role = model.Role;
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Eliminar(int id)
+        {
+            var usuario = _context.Usuarios.Find(id);
+            if (usuario == null) return NotFound();
+
+            _context.Usuarios.Remove(usuario);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
     }
 }

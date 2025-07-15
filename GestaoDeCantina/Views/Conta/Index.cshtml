@@ -1,0 +1,69 @@
+﻿@model IEnumerable<Usuario>
+@{
+    ViewData["Title"] = "Gestão de Utilizadores";
+}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="fw-bold">@ViewData["Title"]</h2>
+        <a class="btn btn-primary" asp-action="Criar">
+            <i class="bi bi-plus-lg"></i> Novo Utilizador
+        </a>
+    </div>
+
+    @* <table class="table table-bordered table-hover"> *@
+        <table id="tabelaUtilizadores" class="table table-bordered table-hover bg-white shadow-sm">
+        <thead class="table-light">
+            <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Perfil</th>
+                @* <th>Criado pelo Admin</th> *@
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var u in Model)
+            {
+                <tr>
+                    <td>@u.Nome</td>
+                    <td>@u.Email</td>
+                    <td>@u.Role</td>
+                    @*   <td>
+                       @if (u.CriadoPeloAdmin)
+                        {
+                            <span class="badge bg-success">Sim</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">Não</span>
+                        }
+                    </td> *@
+                    <td>
+                        <a class="btn btn-sm btn-warning" asp-action="Editar" asp-route-id="@u.Id">
+                            <i class="bi bi-pencil-square"></i> Editar
+                        </a>
+                        <form asp-action="Eliminar" method="post" asp-route-id="@u.Id" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Confirmar eliminação?')">
+                                <i class="bi bi-trash"></i> Eliminar
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#tabelaUtilizadores').DataTable({
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-PT.json'
+                },
+                responsive: true
+            });
+        });
+    </script>
+}
+
